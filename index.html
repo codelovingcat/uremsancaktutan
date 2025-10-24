@@ -3,168 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gallery 3D + Switcher</title>
+<title>3D Gallery + Switcher</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
 <style>
-/* ====== Genel Reset ====== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* ===== Genel Reset ===== */
+* {margin:0; padding:0; box-sizing:border-box;}
+html, body {width:100vw; height:100vh; overflow:hidden; font-family:"DM Sans", sans-serif; background:#000; color:#fff;}
 
-/* ====== 3D Galeri ====== */
-@property --translate-z {
-  syntax: '<length>';
-  inherits: false;
-  initial-value: -3000px;
-}
+/* ===== 3D Gallery ===== */
+@property --translate-z {syntax:'<length>'; inherits:false; initial-value:-3000px;}
+section, section > div {position:absolute; width:100%; height:100%; display:flex; justify-content:center; align-items:center; perspective:1000px; transform-style:preserve-3d;}
+.title {position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:10; font-family:'Orbitron', monospace; font-size:clamp(2rem,8vw,4rem); font-weight:700; color:#fff; text-align:center; text-shadow:0 0 1rem rgba(0,0,0,0.5),0 0 2rem rgba(0,0,0,0.3),0 0 4rem rgba(0,0,0,0.1); letter-spacing:0.1em; pointer-events:none;}
+div img {position:absolute; inset:0; margin:auto; width:20rem; object-fit:cover; will-change:transform; cursor:pointer; opacity:0;}
+div img:nth-of-type(odd), div img:nth-of-type(even) {animation: move var(--duration,16s) linear infinite, opacity var(--duration,16s) linear infinite;}
+div img:hover {animation-play-state:paused;}
+@keyframes opacity {0%{opacity:0;}20%,80%{opacity:1;}90%,100%{opacity:0;}}
+@keyframes move {0%{opacity:0; --translate-z:-5000px;}100%{--translate-z:2000px;}}
 
-html, body {
-  width: 100vw;
-  height: 100vh;
-  background-color: #000;
-  overflow: hidden;
-  font-family: 'DM Sans', sans-serif;
-}
-
-section,
-section > div {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  perspective: 1000px;
-  transform-style: preserve-3d;
-}
-
-.title {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-  font-family: 'Orbitron', monospace;
-  font-size: clamp(2rem, 8vw, 4rem);
-  font-weight: 700;
-  color: #fff;
-  text-align: center;
-  text-shadow: 0 0 1rem rgba(0,0,0,0.5),0 0 2rem rgba(0,0,0,0.3),0 0 4rem rgba(0,0,0,0.1);
-  letter-spacing: 0.1em;
-  pointer-events: none;
-}
-
-.gallery img {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 20rem;
-  object-fit: cover;
-  will-change: transform;
-  cursor: pointer;
-  opacity: 0;
-}
-
-.gallery img:nth-of-type(odd),
-.gallery img:nth-of-type(even) {
-  animation: move var(--duration,16s) linear infinite, opacity var(--duration,16s) linear infinite;
-}
-
-.gallery img:hover {
-  animation-play-state: paused;
-}
-
-@keyframes opacity {
-  0% { opacity: 0; }
-  20%, 80% { opacity: 1; }
-  90%, 100% { opacity: 0; }
-}
-
-@keyframes move {
-  0% { opacity: 0; --translate-z: -5000px; }
-  100% { --translate-z: 2000px; }
-}
-
-/* ====== Switcher ====== */
+/* ===== Switcher ===== */
 body {
-  --c-glass: #bbbbbc;
-  --c-light: #fff;
-  --c-dark: #000;
-  --c-content: #224;
-  --c-action: #0052f5;
-  --c-bg: #e8e8e9;
-  --glass-reflex-dark: 1;
-  --glass-reflex-light: 1;
-  --saturation: 150%;
+  --c-glass:#bbbbbc; --c-light:#fff; --c-dark:#000;
+  --c-content:#224; --c-action:#0052f5; --c-bg:#e8e8e9;
+  --glass-reflex-dark:1; --glass-reflex-light:1; --saturation:150%;
   transition: background 400ms, color 400ms;
 }
+body[data-theme="dark"] {--c-content:#e1e1e1; --c-action:#03d5ff; --c-bg:#1b1b1d; --glass-reflex-dark:2; --glass-reflex-light:0.3;}
+body[data-theme="dim"] {--c-light:#99deff; --c-dark:#20001b; --c-glass:hsl(335 250% 74% / 1); --c-content:#d5dbe2; --c-action:#ff48a9; --c-bg:#152433; --glass-reflex-dark:2; --glass-reflex-light:0.7; --saturation:200%;}
 
-body[data-theme="dark"] {
-  --c-content: #e1e1e1;
-  --c-action: #03d5ff;
-  --c-bg: #1b1b1d;
-  --glass-reflex-dark: 2;
-  --glass-reflex-light: 0.3;
-}
-
-body[data-theme="dim"] {
-  --c-light: #99deff;
-  --c-dark: #20001b;
-  --c-glass: hsl(335 250% 74% / 1);
-  --c-content: #d5dbe2;
-  --c-action: #ff48a9;
-  --c-bg: #152433;
-  --glass-reflex-dark: 2;
-  --glass-reflex-light: 0.7;
-  --saturation: 200%;
-}
-
-.switcher {
-  position: fixed;
-  z-index: 20;
-  top: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 244px;
-  height: 70px;
-  padding: 8px 12px 10px;
-  border-radius: 99em;
-  background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
-  backdrop-filter: blur(8px) saturate(var(--saturation));
-  -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
-  box-shadow: inset 0 0 0 1px var(--c-light);
-}
-
-.switcher input {
-  display: none;
-}
-
-.switcher label {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  font-weight: bold;
-  color: var(--c-content);
-}
-
-.switcher input:checked + label {
-  color: var(--c-action);
-}
+.switcher {position:fixed; z-index:20; top:40px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:8px; width:244px; height:70px; padding:8px 12px 10px; border-radius:99em; background-color: color-mix(in srgb, var(--c-glass) 12%, transparent); backdrop-filter: blur(8px) saturate(var(--saturation)); -webkit-backdrop-filter: blur(8px) saturate(var(--saturation)); box-shadow: inset 0 0 0 1px var(--c-light);}
+.switcher input {display:none;}
+.switcher label {flex:1; display:flex; justify-content:center; align-items:center; cursor:pointer; font-weight:bold; color:var(--c-content);}
+.switcher input:checked + label {color:var(--c-action);}
 </style>
 </head>
 <body data-theme="light">
 
-<!-- ====== 3D Galeri ====== -->
+<!-- ===== 3D Gallery ===== -->
 <section>
   <h1 class="title">GALLERY 3D</h1>
-  <div class="gallery" style="--count:10; --duration:16s;">
+  <div style="--count:10; --duration:16s;">
     <img src="https://images.pexels.com/photos/614117/pexels-photo-614117.jpeg" style="--i:1;">
     <img src="https://images.unsplash.com/photo-1505238680356-667803448bb6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" style="--i:2;">
     <img src="https://images.pexels.com/photos/270360/pexels-photo-270360.jpeg" style="--i:3;">
@@ -178,7 +55,7 @@ body[data-theme="dim"] {
   </div>
 </section>
 
-<!-- ====== Tema Switcher ====== -->
+<!-- ===== Switcher ===== -->
 <div class="switcher">
   <input type="radio" name="theme" id="theme-light" value="light" checked>
   <label for="theme-light">Light</label>
@@ -189,32 +66,24 @@ body[data-theme="dim"] {
 </div>
 
 <script>
-/* ====== 3D Gallery Transform ====== */
+// ===== 3D Gallery Transform =====
 document.addEventListener('DOMContentLoaded', () => {
-  const images = document.querySelectorAll('.gallery img');
+  const images = document.querySelectorAll('section div img');
   images.forEach(image => {
-    const maxLeft = window.innerWidth * 0.5 / 16;
-    const left = -Math.random() * maxLeft + 'rem';
-    const maxRight = window.innerWidth * 0.5 / 16;
-    const right = -Math.random() * maxRight + 'rem';
-    image.style.setProperty('--left', left);
-    image.style.setProperty('--right', right);
-
     const i = parseInt(image.style.getPropertyValue('--i'));
     const count = parseInt(image.parentElement.style.getPropertyValue('--count'));
-
-    if(i % 2 === 1) {
-      image.style.transform = `translateZ(var(--translate-z)) translate(calc(-25rem), calc( ( ${i} - ( ${count} + 1)/2 ) * 8rem ))`;
+    if(i%2===1){
+      image.style.transform=`translateZ(var(--translate-z)) translate(calc(-25rem), calc(( ${i} - ( ${count}+1)/2 )*8rem))`;
     } else {
-      image.style.transform = `translateZ(var(--translate-z)) translate(calc(25rem), calc( ( ${i} - ( ${count} + 1)/2 ) * -8rem ))`;
+      image.style.transform=`translateZ(var(--translate-z)) translate(calc(25rem), calc(( ${i} - ( ${count}+1)/2 )*-8rem))`;
     }
   });
 });
 
-/* ====== Tema Switcher ====== */
-const switcher = document.querySelector(".switcher");
-switcher.querySelectorAll('input[name="theme"]').forEach(input => {
-  input.addEventListener("change", () => {
+// ===== Switcher =====
+const switcherInputs = document.querySelectorAll('.switcher input[name="theme"]');
+switcherInputs.forEach(input => {
+  input.addEventListener("change", ()=>{
     document.body.setAttribute("data-theme", input.value);
   });
 });
