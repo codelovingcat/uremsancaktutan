@@ -1,166 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Tubes Cursor Demo</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-@font-face {
-  font-family: "PPSupplyMono";
-  src: url("https://assets.codepen.io/7558/PPSupplyMono-Regular.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-*, *::after, *::before { margin: 0; padding: 0; box-sizing: border-box; }
-
-:root {
-  --color--background: rgb(60, 60, 60);
-  --color--foreground: #c4d5bc;
-  --color--accent: rgb(170, 170, 170);
-  --font-primary: "PPSupplyMono", "Courier New", monospace;
-  --font-secondary: "PPSupplyMono", "Courier New", monospace;
-  --margin: 32px;
-  --gutter: 16px;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 100vh;
+* {
   margin: 0;
   padding: 0;
-  font-family: var(--font-primary);
-  background: radial-gradient(circle at 10% 20%, rgb(230, 230, 230) 0%, rgb(180, 180, 180) 45%, rgb(100, 100, 100) 90%);
-  color: var(--color--foreground);
-  letter-spacing: -0.03em;
-  position: relative;
+  box-sizing: border-box;
+}
+@property --translate-z {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: -3000px;
+}
+html, body {
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
   overflow: hidden;
 }
-
-body.loading-active { overflow: hidden !important; }
-
-body::before {
-  content: "";
-  position: fixed;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: transparent url("https://assets.codepen.io/7558/noise.png") repeat 0 0;
-  background-size: 300px 300px;
-  animation: noise-animation 0.3s steps(5) infinite;
-  opacity: 0.9;
-  will-change: transform;
-  z-index: 100;
+section,
+section > div {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+.title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(2rem, 8vw, 4rem);
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  text-shadow: 
+    0 0 1rem rgba(0,0,0,0.5),
+    0 0 2rem rgba(0,0,0,0.3),
+    0 0 4rem rgba(0,0,0,0.1);
+  letter-spacing: 0.1em;
   pointer-events: none;
 }
-
-@keyframes noise-animation {
-  0% { transform: translate(0, 0); }
-  10% { transform: translate(-2%, -3%); }
-  20% { transform: translate(-4%, 2%); }
-  30% { transform: translate(2%, -4%); }
-  40% { transform: translate(-2%, 5%); }
-  50% { transform: translate(-4%, 2%); }
-  60% { transform: translate(3%, 0); }
-  70% { transform: translate(0, 3%); }
-  80% { transform: translate(-3%, 0); }
-  90% { transform: translate(2%, 2%); }
-  100% { transform: translate(1%, 0); }
-}
-
-#canvas { width: 100%; height: 100%; display: block; position: fixed; top: 0; left: 0; background: transparent; z-index: 1; pointer-events: none; opacity: 0; transition: opacity 0.5s ease-out; }
-#canvas.ready { opacity: 1; }
-
-.fallback-bg {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-image: url("https://assets.codepen.io/7558/red-protocol-poster-03-bg.jpg");
-  background-size: cover;
-  background-position: center;
-  z-index: 0;
-  opacity: 0;
-  transition: opacity 1s ease-out;
-}
-
-.fallback-bg.active { opacity: 1; }
-
-.container { display: flex; width: 100%; height: 100vh; padding: var(--gutter); position: relative; z-index: 10; transition: filter 0.1s ease-out; }
-.text-element { position: fixed; font-family: var(--font-primary); color: var(--color--foreground); text-transform: uppercase; z-index: 10; opacity: 0; transform: translateY(30px); }
-
-.audio-enable {
-  position: fixed; top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: #0a0a0a;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  z-index: 2000;
-  font-family: var(--font-primary);
-  font-size: 12px;
-  color: #c4d5bc;
-  text-transform: uppercase;
-  gap: 2rem; text-align: center; padding: 1rem;
-}
-
-.enable-button {
-  border: 1px solid #c4d5bc;
-  background: transparent;
-  color: #c4d5bc;
-  padding: 1rem 2rem;
-  font-family: var(--font-primary);
-  font-size: 12px;
-  text-transform: uppercase;
+div img {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 20rem;
+  object-fit: cover;
+  will-change: transform;
   cursor: pointer;
-  letter-spacing: 0.1em;
-  transition: all 0.3s ease;
+  opacity: 0;
 }
-
-.enable-button:hover { background: #c4d5bc; color: #0a0a0a; }
-.preloader { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #0a0a0a; display: none; align-items: center; justify-content: center; z-index: 2000; font-family: var(--font-primary); font-size: 12px; color: #c4d5bc; letter-spacing: 0.1em; text-transform: uppercase; opacity: 1; transition: opacity 0.8s ease-out; }
-.preloader.fade-out { opacity: 0; }
-.error-message { position: fixed; top: 20px; left: 20px; background: rgba(255,0,0,0.8); color: white; padding: 10px; font-size: 12px; display: none; z-index: 3000; }
-
-/* Responsive */
-@media (max-width:768px){.description,.nav-links,.division,.performance{left:20px}.footer,.signal{right:20px}.central-text{font-size:1rem;white-space:normal;max-width:90%}.description{width:calc(100vw - 40px);max-width:300px}.dg.ac{transform:scale(0.8);transform-origin:top right}}@media(max-width:480px){.central-text{font-size:0.9rem}.description{font-size:0.7rem}.dg.ac{transform:scale(0.7)}}@media(hover:none) and (pointer:coarse){.nav-links a:hover::after{width:0}.nav-links a:active::after{width:100%}.enable-button:hover{background:transparent;color:#c4d5bc}.enable-button:active{background:#c4d5bc;color:#0a0a0a}}
+div img:nth-of-type(odd) {
+  animation: move var(--duration,16s) linear infinite, opacity var(--duration,16s) linear infinite;
+}
+div img:nth-of-type(even) {
+  animation: move var(--duration,16s) linear infinite, opacity var(--duration,16s) linear infinite;
+}
+div img:hover {
+  animation-play-state: paused;
+}
+@keyframes opacity {
+  0% { opacity: 0; }
+  20%, 80% { opacity: 1; }
+  90%, 100% { opacity: 0; }
+}
+@keyframes move {
+  0% { opacity: 0; --translate-z: -5000px; }
+  100% { --translate-z: 2000px; }
+}
 </style>
 </head>
 <body>
-<div class="audio-enable">
-  <button class="enable-button" id="enableBtn">Start</button>
-</div>
-<div class="fallback-bg" id="fallbackBg"></div>
-<canvas id="canvas"></canvas>
-<div id="preloader" class="preloader"><span id="counter">[000]</span></div>
-<div id="errorMessage" class="error-message"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.177.0/build/three.min.js"></script>
+<section>
+  <h1 class="title">GALLERY 3D</h1>
+  <div style="--count:10; --duration:16s;">
+    <img src="https://images.pexels.com/photos/614117/pexels-photo-614117.jpeg" style="--i:1;">
+    <img src="https://images.unsplash.com/photo-1505238680356-667803448bb6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" style="--i:2;">
+    <img src="https://images.pexels.com/photos/270360/pexels-photo-270360.jpeg" style="--i:3;">
+    <img src="https://images.pexels.com/photos/6424587/pexels-photo-6424587.jpeg" style="--i:4;">
+    <img src="https://images.pexels.com/photos/29445973/pexels-photo-29445973.jpeg" style="--i:5;">
+    <img src="https://images.pexels.com/photos/10725897/pexels-photo-10725897.jpeg" style="--i:6;">
+    <img src="https://images.pexels.com/photos/3888151/pexels-photo-3888151.jpeg" style="--i:7;">
+    <img src="https://images.pexels.com/photos/34600/pexels-photo.jpg" style="--i:8;">
+    <img src="https://images.pexels.com/photos/943096/pexels-photo-943096.jpeg" style="--i:9;">
+    <img src="https://images.pexels.com/photos/6424589/pexels-photo-6424589.jpeg" style="--i:10;">
+  </div>
+</section>
+
 <script>
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas') });
-  renderer.setSize(window.innerWidth, window.innerHeight);
+document.addEventListener('DOMContentLoaded', () => {
+  const images = document.querySelectorAll('img');
+  images.forEach(image => {
+    const maxLeft = window.innerWidth * 0.5 / 16;
+    const left = -Math.random() * maxLeft + 'rem';
+    const maxRight = window.innerWidth * 0.5 / 16;
+    const right = -Math.random() * maxRight + 'rem';
 
-  const geometry = new THREE.BoxGeometry();
-  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  const cube = new THREE.Mesh(geometry, material);
-  scene.add(cube);
+    image.style.setProperty('--left', left);
+    image.style.setProperty('--right', right);
 
-  camera.position.z = 5;
+    const i = parseInt(image.style.getPropertyValue('--i'));
+    const count = parseInt(image.parentElement.style.getPropertyValue('--count'));
 
-  function animate() {
-    requestAnimationFrame(animate);
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-    renderer.render(scene, camera);
-  }
-  animate();
+    if(i % 2 === 1) {
+      image.style.transform = `translateZ(var(--translate-z)) translate(calc(-25rem), calc( ( ${i} - ( ${count} + 1)/2 ) * 8rem ))`;
+    } else {
+      image.style.transform = `translateZ(var(--translate-z)) translate(calc(25rem), calc( ( ${i} - ( ${count} + 1)/2 ) * -8rem ))`;
+    }
+  });
+});
 </script>
 
 </body>
 </html>
-
-
