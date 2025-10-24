@@ -137,18 +137,30 @@ body::before {
 <div id="preloader" class="preloader"><span id="counter">[000]</span></div>
 <div id="errorMessage" class="error-message"></div>
 
-<script type="module">
-import * as THREE from "https://esm.sh/three@0.177.0";
-import { EffectComposer } from "https://esm.sh/three@0.177.0/examples/jsm/postprocessing/EffectComposer.js";
-import { RenderPass } from "https://esm.sh/three@0.177.0/examples/jsm/postprocessing/RenderPass.js";
-import { ShaderPass } from "https://esm.sh/three@0.177.0/examples/jsm/postprocessing/ShaderPass.js";
-import { Pane } from "https://cdn.skypack.dev/tweakpane@4.0.4";
+<script src="https://cdn.jsdelivr.net/npm/three@0.177.0/build/three.min.js"></script>
+<script>
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas') });
+  renderer.setSize(window.innerWidth, window.innerHeight);
 
-(function(){
-  // Kodu burada tüm App objesi ve init() fonksiyonları dahil tek sayfaya yapıştırabilirsin.
-  // Daha önceden verdiğin JS kodunu buraya tam olarak ekle.
-})();
+  const geometry = new THREE.BoxGeometry();
+  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+  const cube = new THREE.Mesh(geometry, material);
+  scene.add(cube);
+
+  camera.position.z = 5;
+
+  function animate() {
+    requestAnimationFrame(animate);
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+    renderer.render(scene, camera);
+  }
+  animate();
 </script>
+
 </body>
 </html>
+
 
