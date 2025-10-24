@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3D Gallery + Switcher</title>
+<title>3D Gallery + Switcher + Buttons</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
 <style>
 /* ===== Genel Reset ===== */
 * {margin:0; padding:0; box-sizing:border-box;}
-html, body {width:100vw; height:100vh; overflow:hidden; font-family:"DM Sans", sans-serif; background:#000; color:#fff;}
+html, body {width:100vw; height:100vh; overflow:hidden; font-family:"DM Sans", sans-serif; background:#000; color:#fff; display:flex; flex-direction:column; justify-content:flex-start; align-items:center;}
 
 /* ===== 3D Gallery ===== */
 @property --translate-z {syntax:'<length>'; inherits:false; initial-value:-3000px;}
@@ -34,6 +34,26 @@ body[data-theme="dim"] {--c-light:#99deff; --c-dark:#20001b; --c-glass:hsl(335 2
 .switcher input {display:none;}
 .switcher label {flex:1; display:flex; justify-content:center; align-items:center; cursor:pointer; font-weight:bold; color:var(--c-content);}
 .switcher input:checked + label {color:var(--c-action);}
+
+/* ===== 3D Buttons ===== */
+.wrap {display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:24px; margin-top:80vh;}
+.btn-3d {background:none; border:none; perspective:1000px; cursor:pointer; position:relative;}
+.inner {background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:14px; height:130px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; transform-style:preserve-3d; transition: transform 0.4s cubic-bezier(0.18,0.9,0.32,1), box-shadow 0.3s; box-shadow:0 10px 25px rgba(0,0,0,0.5);}
+.btn-3d:hover .inner {transform:rotateX(12deg) rotateY(-10deg) translateY(-8px); box-shadow:0 15px 30px rgba(0,0,0,0.6);}
+.btn-3d:active .inner {transform:translateY(2px) scale(0.97);}
+.label {font-weight:600; font-size:16px; color:var(--light);}
+svg {width:50px; height:50px; fill:var(--light); transition: transform 0.6s ease, fill 0.3s ease, filter 0.4s ease; filter: drop-shadow(0 0 0 transparent);}
+.btn-1 .inner {background: linear-gradient(145deg, #022c43, #053f5e);}
+.btn-2 .inner {background: linear-gradient(145deg, #24104f, #3a0ca3);}
+.btn-3 .inner {background: linear-gradient(145deg, #5a3d00, #f59e0b);}
+.btn-4 .inner {background: linear-gradient(145deg, #004d40, #10b981);}
+.btn-1:hover svg {transform: scale(1.3) rotate(10deg); fill:#06b6d4; filter: drop-shadow(0 0 10px #06b6d4);}
+.btn-2:hover svg {transform: scale(1.3) rotate(10deg); fill:#7c3aed; filter: drop-shadow(0 0 10px #7c3aed);}
+.btn-3:hover svg {transform: scale(1.3) rotate(10deg); fill:#f59e0b; filter: drop-shadow(0 0 10px #f59e0b);}
+.btn-4:hover svg {transform: scale(1.3) rotate(10deg); fill:#10b981; filter: drop-shadow(0 0 10px #10b981);}
+.pulse {animation:pulse 0.5s ease, glow 0.5s ease;}
+@keyframes pulse {0%{transform:scale(1);}50%{transform:scale(1.25);}100%{transform:scale(1);}}
+@keyframes glow {0%{filter: drop-shadow(0 0 0 transparent);}50%{filter:drop-shadow(0 0 14px currentColor);}100%{filter: drop-shadow(0 0 0 transparent);}}
 </style>
 </head>
 <body data-theme="light">
@@ -43,7 +63,7 @@ body[data-theme="dim"] {--c-light:#99deff; --c-dark:#20001b; --c-glass:hsl(335 2
   <h1 class="title">GALLERY 3D</h1>
   <div style="--count:10; --duration:16s;">
     <img src="https://images.pexels.com/photos/614117/pexels-photo-614117.jpeg" style="--i:1;">
-    <img src="https://images.unsplash.com/photo-1505238680356-667803448bb6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" style="--i:2;">
+    <img src="https://images.unsplash.com/photo-1505238680356-667803448bb6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0" style="--i:2;">
     <img src="https://images.pexels.com/photos/270360/pexels-photo-270360.jpeg" style="--i:3;">
     <img src="https://images.pexels.com/photos/6424587/pexels-photo-6424587.jpeg" style="--i:4;">
     <img src="https://images.pexels.com/photos/29445973/pexels-photo-29445973.jpeg" style="--i:5;">
@@ -65,6 +85,14 @@ body[data-theme="dim"] {--c-light:#99deff; --c-dark:#20001b; --c-glass:hsl(335 2
   <label for="theme-dim">Dim</label>
 </div>
 
+<!-- ===== 3D Buttons ===== -->
+<div class="wrap">
+  <button class="btn-3d btn-1"><div class="inner"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><span class="label">Btn 1</span></div></button>
+  <button class="btn-3d btn-2"><div class="inner"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16"/></svg><span class="label">Btn 2</span></div></button>
+  <button class="btn-3d btn-3"><div class="inner"><svg viewBox="0 0 24 24"><polygon points="12,2 22,22 2,22"/></svg><span class="label">Btn 3</span></div></button>
+  <button class="btn-3d btn-4"><div class="inner"><svg viewBox="0 0 24 24"><path d="M12 2 L22 12 L12 22 L2 12 Z"/></svg><span class="label">Btn 4</span></div></button>
+</div>
+
 <script>
 // ===== 3D Gallery Transform =====
 document.addEventListener('DOMContentLoaded', () => {
@@ -78,16 +106,3 @@ document.addEventListener('DOMContentLoaded', () => {
       image.style.transform=`translateZ(var(--translate-z)) translate(calc(25rem), calc(( ${i} - ( ${count}+1)/2 )*-8rem))`;
     }
   });
-});
-
-// ===== Switcher =====
-const switcherInputs = document.querySelectorAll('.switcher input[name="theme"]');
-switcherInputs.forEach(input => {
-  input.addEventListener("change", ()=>{
-    document.body.setAttribute("data-theme", input.value);
-  });
-});
-</script>
-
-</body>
-</html>
