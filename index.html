@@ -3,106 +3,141 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3D Gallery + Switcher + Buttons</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
+<title>Particle Button</title>
 <style>
-/* ===== Genel Reset ===== */
-* {margin:0; padding:0; box-sizing:border-box;}
-html, body {width:100vw; height:100vh; overflow:hidden; font-family:"DM Sans", sans-serif; background:#000; color:#fff; display:flex; flex-direction:column; justify-content:flex-start; align-items:center;}
+  html {
+    --red: oklch(0.65 0.3 19.41);
+    --particle-curve: cubic-bezier(0.2, 0.56, 0, 1);
+  }
 
-/* ===== 3D Gallery ===== */
-@property --translate-z {syntax:'<length>'; inherits:false; initial-value:-3000px;}
-section, section > div {position:absolute; width:100%; height:100%; display:flex; justify-content:center; align-items:center; perspective:1000px; transform-style:preserve-3d;}
-.title {position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:10; font-family:'Orbitron', monospace; font-size:clamp(2rem,8vw,4rem); font-weight:700; color:#fff; text-align:center; text-shadow:0 0 1rem rgba(0,0,0,0.5),0 0 2rem rgba(0,0,0,0.3),0 0 4rem rgba(0,0,0,0.1); letter-spacing:0.1em; pointer-events:none;}
-div img {position:absolute; inset:0; margin:auto; width:20rem; object-fit:cover; will-change:transform; cursor:pointer; opacity:0;}
-div img:nth-of-type(odd), div img:nth-of-type(even) {animation: move var(--duration,16s) linear infinite, opacity var(--duration,16s) linear infinite;}
-div img:hover {animation-play-state:paused;}
-@keyframes opacity {0%{opacity:0;}20%,80%{opacity:1;}90%,100%{opacity:0;}}
-@keyframes move {0%{opacity:0; --translate-z:-5000px;}100%{--translate-z:2000px;}}
+  body {
+    display: grid;
+    place-content: center;
+    height: 100vh;
+    background: hsl(210deg 15% 6%);
+    margin: 0;
+  }
 
-/* ===== Switcher ===== */
-body {
-  --c-glass:#bbbbbc; --c-light:#fff; --c-dark:#000;
-  --c-content:#224; --c-action:#0052f5; --c-bg:#e8e8e9;
-  --glass-reflex-dark:1; --glass-reflex-light:1; --saturation:150%;
-  transition: background 400ms, color 400ms;
-}
-body[data-theme="dark"] {--c-content:#e1e1e1; --c-action:#03d5ff; --c-bg:#1b1b1d; --glass-reflex-dark:2; --glass-reflex-light:0.3;}
-body[data-theme="dim"] {--c-light:#99deff; --c-dark:#20001b; --c-glass:hsl(335 250% 74% / 1); --c-content:#d5dbe2; --c-action:#ff48a9; --c-bg:#152433; --glass-reflex-dark:2; --glass-reflex-light:0.7; --saturation:200%;}
+  .particleButton {
+    position: relative;
+    padding: 16px;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+  }
 
-.switcher {position:fixed; z-index:20; top:40px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:8px; width:244px; height:70px; padding:8px 12px 10px; border-radius:99em; background-color: color-mix(in srgb, var(--c-glass) 12%, transparent); backdrop-filter: blur(8px) saturate(var(--saturation)); -webkit-backdrop-filter: blur(8px) saturate(var(--saturation)); box-shadow: inset 0 0 0 1px var(--c-light);}
-.switcher input {display:none;}
-.switcher label {flex:1; display:flex; justify-content:center; align-items:center; cursor:pointer; font-weight:bold; color:var(--c-content);}
-.switcher input:checked + label {color:var(--c-action);}
+  .particleButton:hover {
+    background: hsl(0deg 0% 100% / 0.1);
+  }
 
-/* ===== 3D Buttons ===== */
-.wrap {display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:24px; margin-top:80vh;}
-.btn-3d {background:none; border:none; perspective:1000px; cursor:pointer; position:relative;}
-.inner {background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:14px; height:130px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; transform-style:preserve-3d; transition: transform 0.4s cubic-bezier(0.18,0.9,0.32,1), box-shadow 0.3s; box-shadow:0 10px 25px rgba(0,0,0,0.5);}
-.btn-3d:hover .inner {transform:rotateX(12deg) rotateY(-10deg) translateY(-8px); box-shadow:0 15px 30px rgba(0,0,0,0.6);}
-.btn-3d:active .inner {transform:translateY(2px) scale(0.97);}
-.label {font-weight:600; font-size:16px; color:var(--light);}
-svg {width:50px; height:50px; fill:var(--light); transition: transform 0.6s ease, fill 0.3s ease, filter 0.4s ease; filter: drop-shadow(0 0 0 transparent);}
-.btn-1 .inner {background: linear-gradient(145deg, #022c43, #053f5e);}
-.btn-2 .inner {background: linear-gradient(145deg, #24104f, #3a0ca3);}
-.btn-3 .inner {background: linear-gradient(145deg, #5a3d00, #f59e0b);}
-.btn-4 .inner {background: linear-gradient(145deg, #004d40, #10b981);}
-.btn-1:hover svg {transform: scale(1.3) rotate(10deg); fill:#06b6d4; filter: drop-shadow(0 0 10px #06b6d4);}
-.btn-2:hover svg {transform: scale(1.3) rotate(10deg); fill:#7c3aed; filter: drop-shadow(0 0 10px #7c3aed);}
-.btn-3:hover svg {transform: scale(1.3) rotate(10deg); fill:#f59e0b; filter: drop-shadow(0 0 10px #f59e0b);}
-.btn-4:hover svg {transform: scale(1.3) rotate(10deg); fill:#10b981; filter: drop-shadow(0 0 10px #10b981);}
-.pulse {animation:pulse 0.5s ease, glow 0.5s ease;}
-@keyframes pulse {0%{transform:scale(1);}50%{transform:scale(1.25);}100%{transform:scale(1);}}
-@keyframes glow {0%{filter: drop-shadow(0 0 0 transparent);}50%{filter:drop-shadow(0 0 14px currentColor);}100%{filter: drop-shadow(0 0 0 transparent);}}
+  .particleButton:hover path {
+    stroke: var(--red);
+  }
+
+  .particleButton.liked path {
+    fill: var(--red);
+    stroke: var(--red);
+  }
+
+  .particleButton svg {
+    display: block;
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .particle {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+    pointer-events: none;
+    animation: fadeToTransparent var(--fade-duration) forwards,
+               disperse 500ms forwards var(--particle-curve);
+  }
+
+  @keyframes fadeToTransparent {
+    to { opacity: 0; }
+  }
+
+  @keyframes disperse {
+    to {
+      transform: translate(
+        calc(cos(var(--angle)) * var(--distance)),
+        calc(sin(var(--angle)) * var(--distance))
+      );
+    }
+  }
+
+  .visually-hidden:not(:focus):not(:active) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 </style>
 </head>
-<body data-theme="light">
+<body>
 
-<!-- ===== 3D Gallery ===== -->
-<section>
-  <h1 class="title">GALLERY 3D</h1>
-  <div style="--count:10; --duration:16s;">
-    <img src="https://images.pexels.com/photos/614117/pexels-photo-614117.jpeg" style="--i:1;">
-    <img src="https://images.unsplash.com/photo-1505238680356-667803448bb6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0" style="--i:2;">
-    <img src="https://images.pexels.com/photos/270360/pexels-photo-270360.jpeg" style="--i:3;">
-    <img src="https://images.pexels.com/photos/6424587/pexels-photo-6424587.jpeg" style="--i:4;">
-    <img src="https://images.pexels.com/photos/29445973/pexels-photo-29445973.jpeg" style="--i:5;">
-    <img src="https://images.pexels.com/photos/10725897/pexels-photo-10725897.jpeg" style="--i:6;">
-    <img src="https://images.pexels.com/photos/3888151/pexels-photo-3888151.jpeg" style="--i:7;">
-    <img src="https://images.pexels.com/photos/34600/pexels-photo.jpg" style="--i:8;">
-    <img src="https://images.pexels.com/photos/943096/pexels-photo-943096.jpeg" style="--i:9;">
-    <img src="https://images.pexels.com/photos/6424589/pexels-photo-6424589.jpeg" style="--i:10;">
-  </div>
-</section>
-
-<!-- ===== Switcher ===== -->
-<div class="switcher">
-  <input type="radio" name="theme" id="theme-light" value="light" checked>
-  <label for="theme-light">Light</label>
-  <input type="radio" name="theme" id="theme-dark" value="dark">
-  <label for="theme-dark">Dark</label>
-  <input type="radio" name="theme" id="theme-dim" value="dim">
-  <label for="theme-dim">Dim</label>
-</div>
-
-<!-- ===== 3D Buttons ===== -->
-<div class="wrap">
-  <button class="btn-3d btn-1"><div class="inner"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><span class="label">Btn 1</span></div></button>
-  <button class="btn-3d btn-2"><div class="inner"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16"/></svg><span class="label">Btn 2</span></div></button>
-  <button class="btn-3d btn-3"><div class="inner"><svg viewBox="0 0 24 24"><polygon points="12,2 22,22 2,22"/></svg><span class="label">Btn 3</span></div></button>
-  <button class="btn-3d btn-4"><div class="inner"><svg viewBox="0 0 24 24"><path d="M12 2 L22 12 L12 22 L2 12 Z"/></svg><span class="label">Btn 4</span></div></button>
-</div>
+<button class="particleButton">
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M3.68546 5.43796C8.61936 1.29159 11.8685 7.4309 12.0406 7.4309C12.2126 7.43091 15.4617 1.29159 20.3956 5.43796C26.8941 10.8991 13.5 21.8215 12.0406 21.8215C10.5811 21.8215 -2.81297 10.8991 3.68546 5.43796Z" stroke="white" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+  <span class="visually-hidden">Like this post</span>
+</button>
 
 <script>
-// ===== 3D Gallery Transform =====
-document.addEventListener('DOMContentLoaded', () => {
-  const images = document.querySelectorAll('section div img');
-  images.forEach(image => {
-    const i = parseInt(image.style.getPropertyValue('--i'));
-    const count = parseInt(image.parentElement.style.getPropertyValue('--count'));
-    if(i%2===1){
-      image.style.transform=`translateZ(var(--translate-z)) translate(calc(-25rem), calc(( ${i} - ( ${count}+1)/2 )*8rem))`;
-    } else {
-      image.style.transform=`translateZ(var(--translate-z)) translate(calc(25rem), calc(( ${i} - ( ${count}+1)/2 )*-8rem))`;
-    }
+const btn = document.querySelector('.particleButton');
+const FADE_DURATION = 1000;
+
+btn.addEventListener('click', () => {
+  btn.classList.toggle('liked');
+  if (!btn.classList.contains('liked')) return;
+
+  const particles = [];
+  range(5).forEach(() => {
+    const particle = document.createElement('span');
+    particle.classList.add('particle');
+
+    const angle = random(0, 360);
+    const distance = random(32, 40);
+
+    particle.style.setProperty('--angle', angle + 'deg');
+    particle.style.setProperty('--distance', distance + 'px');
+    particle.style.setProperty('--fade-duration', FADE_DURATION + 'ms');
+
+    btn.appendChild(particle);
+    particles.push(particle);
   });
+
+  setTimeout(() => particles.forEach(p => p.remove()), FADE_DURATION + 200);
+});
+
+function random(lower = 0, upper = 1, floating) {
+  if (upper === undefined) { upper = lower; lower = 0; }
+  if (floating === true || !Number.isInteger(lower) || !Number.isInteger(upper)) {
+    return Math.random() * (upper - lower) + lower;
+  }
+  return Math.floor(Math.random() * (upper - lower + 1)) + lower;
+}
+
+function range(start = 0, end, step) {
+  if (end === undefined) { end = start; start = 0; }
+  if (step === undefined) { step = start < end ? 1 : -1; }
+
+  const result = [];
+  const ascending = step > 0;
+  if (ascending) { for (let i = start; i < end; i += step) result.push(i); }
+  else { for (let i = start; i > end; i += step) result.push(i); }
+  return result;
+}
+</script>
+
+</body>
+</html>
