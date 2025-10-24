@@ -3,26 +3,17 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Ürem Sancaktutan</title>
-
+<title>Tubes Cursor Demo</title>
 <style>
-/* CSS Başlangıcı */
 @font-face {
   font-family: "PPSupplyMono";
-  src: url("https://assets.codepen.io/7558/PPSupplyMono-Regular.ttf")
-    format("truetype");
+  src: url("https://assets.codepen.io/7558/PPSupplyMono-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
-*,
-*::after,
-*::before {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+*, *::after, *::before { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
   --color--background: rgb(60, 60, 60);
@@ -40,8 +31,10 @@ body {
   justify-content: space-between;
   align-items: center;
   min-height: 100vh;
+  margin: 0;
+  padding: 0;
   font-family: var(--font-primary);
-  background: radial-gradient(circle at 10% 20%, rgb(230,230,230) 0%, rgb(180,180,180) 45%, rgb(100,100,100) 90%);
+  background: radial-gradient(circle at 10% 20%, rgb(230, 230, 230) 0%, rgb(180, 180, 180) 45%, rgb(100, 100, 100) 90%);
   color: var(--color--foreground);
   letter-spacing: -0.03em;
   position: relative;
@@ -67,41 +60,26 @@ body::before {
 }
 
 @keyframes noise-animation {
-  0% { transform: translate(0,0); }
-  10% { transform: translate(-2%,-3%); }
-  20% { transform: translate(-4%,2%); }
-  30% { transform: translate(2%,-4%); }
-  40% { transform: translate(-2%,5%); }
-  50% { transform: translate(-4%,2%); }
-  60% { transform: translate(3%,0); }
-  70% { transform: translate(0,3%); }
-  80% { transform: translate(-3%,0); }
-  90% { transform: translate(2%,2%); }
-  100% { transform: translate(1%,0); }
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-2%, -3%); }
+  20% { transform: translate(-4%, 2%); }
+  30% { transform: translate(2%, -4%); }
+  40% { transform: translate(-2%, 5%); }
+  50% { transform: translate(-4%, 2%); }
+  60% { transform: translate(3%, 0); }
+  70% { transform: translate(0, 3%); }
+  80% { transform: translate(-3%, 0); }
+  90% { transform: translate(2%, 2%); }
+  100% { transform: translate(1%, 0); }
 }
 
-#canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: transparent;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.5s ease-out;
-}
-
+#canvas { width: 100%; height: 100%; display: block; position: fixed; top: 0; left: 0; background: transparent; z-index: 1; pointer-events: none; opacity: 0; transition: opacity 0.5s ease-out; }
 #canvas.ready { opacity: 1; }
 
 .fallback-bg {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   background-image: url("https://assets.codepen.io/7558/red-protocol-poster-03-bg.jpg");
   background-size: cover;
   background-position: center;
@@ -112,16 +90,20 @@ body::before {
 
 .fallback-bg.active { opacity: 1; }
 
-.container { display: flex; width: 100%; height: 100vh; padding: var(--gutter); position: relative; z-index: 10; }
-
+.container { display: flex; width: 100%; height: 100vh; padding: var(--gutter); position: relative; z-index: 10; transition: filter 0.1s ease-out; }
 .text-element { position: fixed; font-family: var(--font-primary); color: var(--color--foreground); text-transform: uppercase; z-index: 10; opacity: 0; transform: translateY(30px); }
 
 .audio-enable {
-  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-  background: #0a0a0a; display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  z-index: 2000; font-family: var(--font-primary); font-size: 12px;
-  color: #c4d5bc; text-transform: uppercase; gap: 2rem; text-align: center; padding: 1rem;
+  position: fixed; top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: #0a0a0a;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 2000;
+  font-family: var(--font-primary);
+  font-size: 12px;
+  color: #c4d5bc;
+  text-transform: uppercase;
+  gap: 2rem; text-align: center; padding: 1rem;
 }
 
 .enable-button {
@@ -138,53 +120,34 @@ body::before {
 }
 
 .enable-button:hover { background: #c4d5bc; color: #0a0a0a; }
-
-.preloader {
-  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-  background: #0a0a0a; display: none; align-items: center; justify-content: center;
-  z-index: 2000; font-family: var(--font-primary); font-size: 12px;
-  color: #c4d5bc; letter-spacing: 0.1em; text-transform: uppercase;
-  opacity: 1; transition: opacity 0.8s ease-out;
-}
-
+.preloader { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #0a0a0a; display: none; align-items: center; justify-content: center; z-index: 2000; font-family: var(--font-primary); font-size: 12px; color: #c4d5bc; letter-spacing: 0.1em; text-transform: uppercase; opacity: 1; transition: opacity 0.8s ease-out; }
 .preloader.fade-out { opacity: 0; }
-
 .error-message { position: fixed; top: 20px; left: 20px; background: rgba(255,0,0,0.8); color: white; padding: 10px; font-size: 12px; display: none; z-index: 3000; }
-/* CSS bitişi */
+
+/* Responsive */
+@media (max-width:768px){.description,.nav-links,.division,.performance{left:20px}.footer,.signal{right:20px}.central-text{font-size:1rem;white-space:normal;max-width:90%}.description{width:calc(100vw - 40px);max-width:300px}.dg.ac{transform:scale(0.8);transform-origin:top right}}@media(max-width:480px){.central-text{font-size:0.9rem}.description{font-size:0.7rem}.dg.ac{transform:scale(0.7)}}@media(hover:none) and (pointer:coarse){.nav-links a:hover::after{width:0}.nav-links a:active::after{width:100%}.enable-button:hover{background:transparent;color:#c4d5bc}.enable-button:active{background:#c4d5bc;color:#0a0a0a}}
 </style>
 </head>
-
 <body>
-  <div class="audio-enable">
-    <button id="enableBtn" class="enable-button">Enable</button>
-  </div>
-  <div id="preloader" class="preloader">
-    <span id="counter">[000]</span>
-  </div>
-  <div id="errorMessage" class="error-message"></div>
-  <div id="canvas"></div>
-  <div id="fallbackBg" class="fallback-bg"></div>
+<div class="audio-enable">
+  <button class="enable-button" id="enableBtn">Enable Experience</button>
+</div>
+<div class="fallback-bg" id="fallbackBg"></div>
+<canvas id="canvas"></canvas>
+<div id="preloader" class="preloader"><span id="counter">[000]</span></div>
+<div id="errorMessage" class="error-message"></div>
 
 <script type="module">
-// JS Başlangıcı
 import * as THREE from "https://esm.sh/three@0.177.0";
 import { EffectComposer } from "https://esm.sh/three@0.177.0/examples/jsm/postprocessing/EffectComposer.js";
 import { RenderPass } from "https://esm.sh/three@0.177.0/examples/jsm/postprocessing/RenderPass.js";
 import { ShaderPass } from "https://esm.sh/three@0.177.0/examples/jsm/postprocessing/ShaderPass.js";
 import { Pane } from "https://cdn.skypack.dev/tweakpane@4.0.4";
 
-// Buraya yukarıdaki JS kodunu tek sayfa için yapıştırabilirsin
-// Örneğin: App.init(); şeklinde başlatılabilir.
-
-const App = {
-  //... Buradaki tüm JS kodunu buraya yapıştır ve App.init() çağır
-  init() {
-    console.log("JS hazır!");
-  }
-};
-
-App.init();
-// JS bitişi
+(function(){
+  // Kodu burada tüm App objesi ve init() fonksiyonları dahil tek sayfaya yapıştırabilirsin.
+  // Daha önceden verdiğin JS kodunu buraya tam olarak ekle.
+})();
 </script>
 </body>
 </html>
