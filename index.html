@@ -157,6 +157,18 @@
       text-align: center;
     }
 
+    .profile-image {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin: 0 auto 2rem;
+      border: 4px solid var(--primary);
+      box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+      animation: fadeInUp 1s ease, float 3s ease-in-out infinite;
+      display: block;
+      object-fit: cover;
+    }
+
     .hero-content h1 {
       font-size: 4rem;
       font-weight: 700;
@@ -531,6 +543,11 @@
 
     /* Responsive */
     @media (max-width: 768px) {
+      .profile-image {
+        width: 120px;
+        height: 120px;
+      }
+
       .hero-content h1 {
         font-size: 2.5rem;
       }
@@ -603,6 +620,7 @@
     <section id="hero">
       <div class="container">
         <div class="hero-content">
+          <img src="uploads/Gemini_Generated_Image_428sjt428sjt428s.png" alt="Ürem Sancaktutan" class="profile-image">
           <h1>Ürem Sancaktutan</h1>
           <p class="subtitle">Yaratıcı Düşünür & Teknoloji Tutkunu</p>
           <div class="typing-text">
