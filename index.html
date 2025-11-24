@@ -595,6 +595,30 @@
         opacity: 0;
       }
     }
+
+    /* Visit Counter */
+    .visit-counter {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(10, 14, 39, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 255, 136, 0.1);
+      border-radius: 50px;
+      padding: 0.5rem 1rem;
+      color: var(--primary);
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      font-weight: 500;
+      z-index: 999;
+      box-shadow: 0 5px 15px rgba(0, 255, 136, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .visit-counter:hover {
+      border-color: var(--primary);
+      box-shadow: 0 5px 20px rgba(0, 255, 136, 0.2);
+    }
   </style>
 </head>
 <body>
@@ -855,6 +879,11 @@
   <footer>
     <p>&copy; 2025 Ürem Sancaktutan. Tüm hakları saklıdır.</p>
   </footer>
+
+  <!-- Visit Counter -->
+  <div class="visit-counter" id="visit-counter">
+    <span>👁️</span> <span id="visit-count">0</span> ziyaret
+  </div>
 
   <script>
     // Matrix Background Effect
