@@ -630,6 +630,23 @@
       z-index: 1000;
       user-select: none;
     }
+
+    /* Christmas Tree Canvas */
+    #christmas-tree {
+      position: absolute;
+      top: 50%;
+      right: 10%;
+      transform: translateY(-50%);
+      z-index: 0;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      #christmas-tree {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -655,6 +672,7 @@
   <div class="content">
     <!-- Hero Section -->
     <section id="hero">
+      <canvas id="christmas-tree" width="400" height="600"></canvas>
       <div class="container">
         <div class="hero-content">
           <img src="avatar.png" alt="Ürem Sancaktutan" class="profile-image">
