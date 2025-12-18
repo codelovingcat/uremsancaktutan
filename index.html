@@ -619,6 +619,17 @@
       border-color: var(--primary);
       box-shadow: 0 5px 20px rgba(0, 255, 136, 0.2);
     }
+
+    /* Snow Effect */
+    .snowflake {
+      position: absolute;
+      color: white;
+      font-size: 20px;
+      opacity: 0.8;
+      pointer-events: none;
+      z-index: 1000;
+      user-select: none;
+    }
   </style>
 </head>
 <body>
@@ -1161,6 +1172,25 @@
 
     // Initialize visit counter on page load
     updateVisitCounter();
+
+    // Snow Effect
+    function createSnowflake() {
+      const snowflake = document.createElement('div');
+      snowflake.className = 'snowflake';
+      snowflake.textContent = '❄';
+      snowflake.style.left = Math.random() * 100 + 'vw';
+      snowflake.style.animationDuration = Math.random() * 3 + 2 + 's'; // 2-5 seconds
+      snowflake.style.fontSize = Math.random() * 10 + 10 + 'px'; // 10-20px
+      document.body.appendChild(snowflake);
+
+      // Remove snowflake after animation
+      setTimeout(() => {
+        snowflake.remove();
+      }, 5000);
+    }
+
+    // Create snowflakes every 200ms
+    setInterval(createSnowflake, 200);
   </script>
 </body>
 </html>
