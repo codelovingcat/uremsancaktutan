@@ -1149,6 +1149,18 @@
       element.style.transition = 'all 0.6s ease';
       fadeObserver.observe(element);
     });
+
+    // Visit Counter Implementation
+    function updateVisitCounter() {
+      const visitCountElement = document.getElementById('visit-count');
+      let visitCount = parseInt(localStorage.getItem('visitCount')) || 0;
+      visitCount++;
+      localStorage.setItem('visitCount', visitCount);
+      visitCountElement.textContent = visitCount;
+    }
+
+    // Initialize visit counter on page load
+    updateVisitCounter();
   </script>
 </body>
 </html>
