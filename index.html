@@ -35,34 +35,22 @@
       position: relative;
     }
 
-    /* Matrix Background */
+    /* Personalized code-rain background */
     #matrix-bg {
       position: fixed;
-      top: 0;
-      left: 0;
+      inset: 0;
       width: 100%;
       height: 100%;
       z-index: 0;
-      opacity: 0.15;
+      opacity: 0.38;
       pointer-events: none;
-    }
-
-    #matrix-bg main {
-      display: flex;
-    }
-
-    #matrix-bg p {
-      line-height: 1;
-    }
-
-    #matrix-bg span {
       display: block;
-      width: 2vmax;
-      height: 2vmax;
-      font-size: 2vmax;
-      color: #00ff8811;
-      text-align: center;
-      font-family: "Helvetica Neue", Helvetica, sans-serif;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #matrix-bg {
+        opacity: 0.2;
+      }
     }
 
     /* Navigation */
@@ -650,10 +638,8 @@
   </style>
 </head>
 <body>
-  <!-- Matrix Background -->
-  <div id="matrix-bg">
-    <main></main>
-  </div>
+  <!-- Personalized code-rain background -->
+  <canvas id="matrix-bg" aria-hidden="true"></canvas>
 
   <!-- Navigation -->
   <nav id="navbar">
@@ -915,118 +901,198 @@
   </div>
 
   <script>
-    // Matrix Background Effect
-    function r(from, to) {
-      return ~~(Math.random() * (to - from + 1) + from);
-    }
-    function pick() {
-      return arguments[r(0, arguments.length - 1)];
-    }
-    function getChar() {
-      return String.fromCharCode(pick(
-        r(0x3041, 0x30ff),
-        r(0x2000, 0x206f),
-        r(0x0020, 0x003f)
-      ));
-    }
-    function loop(fn, delay) {
-      let stamp = Date.now();
-      function _loop() {
-        if (Date.now() - stamp >= delay) {
-          fn(); stamp = Date.now();
-        }
-        requestAnimationFrame(_loop);
+    // Personalized Matrix/code-rain effect.
+    // The canvas keeps the background lightweight and independent of page content.
+    (() => {
+      const canvas = document.getElementById('matrix-bg');
+      if (!(canvas instanceof HTMLCanvasElement)) return;
+
+      const context = canvas.getContext('2d', { alpha: true });
+      if (!context) return;
+
+      const glyphs = Array.from('01{}[]<>/\\=;:()[]+-_*&|!?%#ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789');
+      const colors = ['#00ff88', '#42e6b5', '#58a6ff', '#9bffd9'];
+      const codeLines = [
+        '// Ürem Sancaktutan · Full Stack Developer',
+        'const developer = "UremSancaktutan";',
+        'public class UremSancaktutan { }',
+        'async Task KodlaAsync() => await api.GetAsync();',
+        'if (fikir != null) { cozumUret(); }',
+        'return "Geleceği kodla";',
+        'const future = await build();',
+        'try { build(); } catch (hata) { fix(hata); }',
+        'Console.WriteLine("Merhaba, dünya!");',
+        'git checkout -b feature/code-rain',
+        'interface YaratıcıFikir { code: string; }',
+        'SELECT * FROM projeler WHERE durum = "hazır";',
+        'const ogren = () => gelistir();',
+        'return "Ürem Sancaktutan";',
+        'dotnet test --no-restore',
+        '// Fikir -> Kod -> Ürün',
+        'var cozum = await uret();',
+        'const api = new HttpClient();'
+      ];
+
+      const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let width = 0;
+      let height = 0;
+      let pixelRatio = 1;
+      let glyphSize = 14;
+      let snippetSize = 11;
+      let drops = [];
+      let codeDrops = [];
+      let frameId = 0;
+      let lastFrameTime = 0;
+
+      const randomBetween = (min, max) => min + Math.random() * Math.max(0, max - min);
+      const pick = (items) => items[Math.floor(Math.random() * items.length)] || items[0];
+
+      function createDrop(x, y) {
+        const length = Math.round(randomBetween(8, 17));
+        return {
+          x,
+          y,
+          speed: randomBetween(0.7, 2.0),
+          length,
+          color: pick(colors),
+          characters: Array.from({ length: length + 1 }, () => pick(glyphs))
+        };
       }
-      requestAnimationFrame(_loop);
-    }
-    class Char {
-      constructor() {
-        this.element = document.createElement('span');
-        this.mutate();
+
+      function createCodeDrop() {
+        const text = pick(codeLines);
+        context.font = snippetSize + 'px "Fira Code", monospace';
+        const textWidth = context.measureText(text).width;
+        const maxX = Math.max(8, width - textWidth - 8);
+        const isNameLine = text.includes('Ürem') || text.includes('UremSancaktutan');
+        return {
+          text,
+          x: randomBetween(8, maxX),
+          y: randomBetween(-Math.max(height, 80), -snippetSize * 2),
+          speed: randomBetween(0.35, 0.9),
+          opacity: isNameLine ? randomBetween(0.48, 0.72) : randomBetween(0.24, 0.42),
+          color: isNameLine ? '#9bffd9' : pick(colors)
+        };
       }
-      mutate() {
-        this.element.textContent = getChar();
-      }
-    }
-    class Trail {
-      constructor(list = [], options) {
-        this.list = list;
-        this.options = Object.assign(
-          { size: 10, offset: 0 }, options
+
+      function resizeCanvas() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.round(width * pixelRatio);
+        canvas.height = Math.round(height * pixelRatio);
+        context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+
+        glyphSize = width < 600 ? 13 : 15;
+        snippetSize = width < 420 ? 9 : width < 768 ? 10 : 12;
+        const columnSpacing = glyphSize * 1.35;
+        const columnCount = Math.ceil(width / columnSpacing);
+
+        drops = Array.from({ length: columnCount }, (_, index) =>
+          createDrop(index * columnSpacing, randomBetween(-height, height))
         );
-        this.body = [];
-        this.move();
+
+        const codeDropCount = Math.min(8, Math.max(3, Math.floor(width / 240)));
+        codeDrops = Array.from({ length: codeDropCount }, () => createCodeDrop());
+        drawFrame(false);
       }
-      traverse(fn) {
-        this.body.forEach((n, i) => {
-          let last = (i == this.body.length - 1);
-          if (n) fn(n, i, last);
-        });
-      }
-      move() {
-        this.body = [];
-        let { offset, size } = this.options;
-        for (let i = 0; i < size; ++i) {
-          let item = this.list[offset + i - size + 1];
-          this.body.push(item);
-        }
-        this.options.offset = 
-          (offset + 1) % (this.list.length + size - 1);
-      }
-    }
-    class Rain {
-      constructor({ target, row }) {
-        this.element = document.createElement('p');
-        this.build(row);
-        if (target) {
-          target.appendChild(this.element);
-        }
-        this.drop();
-      }
-      build(row = 20) {
-        let root = document.createDocumentFragment();
-        let chars = [];
-        for (let i = 0; i < row; ++i) {
-          let c = new Char();
-          root.appendChild(c.element);
-          chars.push(c);
-          if (Math.random() < .5) {
-            loop(() => c.mutate(), r(1e3, 5e3));
+
+      function drawFrame(advance) {
+        context.clearRect(0, 0, width, height);
+        context.textBaseline = 'top';
+        context.font = glyphSize + 'px "Fira Code", monospace';
+        context.shadowBlur = 0;
+
+        for (const drop of drops) {
+          for (let trail = drop.length; trail >= 0; trail -= 1) {
+            const y = drop.y - trail * glyphSize;
+            if (y < -glyphSize || y > height) continue;
+
+            context.globalAlpha = trail === 0
+              ? 0.82
+              : Math.max(0.035, 0.34 * (1 - trail / (drop.length + 1)));
+            context.fillStyle = drop.color;
+            context.shadowColor = drop.color;
+            context.shadowBlur = trail === 0 ? 5 : 0;
+            context.fillText(drop.characters[trail] || pick(glyphs), drop.x, y);
+          }
+
+          if (!advance) continue;
+          if (Math.random() < 0.18) {
+            const characterIndex = Math.floor(Math.random() * drop.characters.length);
+            drop.characters[characterIndex] = pick(glyphs);
+          }
+          drop.y += drop.speed;
+
+          if (drop.y - drop.length * glyphSize > height) {
+            const reset = createDrop(drop.x, randomBetween(-height * 0.5, -glyphSize));
+            Object.assign(drop, reset);
           }
         }
-        this.trail = new Trail(chars, { 
-          size: r(10, 30), offset: r(0, 100) 
-        });
-        this.element.appendChild(root); 
-      }
-      drop() {
-        let trail = this.trail;
-        let len = trail.body.length;
-        let delay = r(10, 100);
-        loop(() => {
-          trail.move();
-          trail.traverse((c, i, last) => {
-            c.element.style = `
-              color: hsl(136, 100%, ${85 / len * (i + 1)}%)
-            `;
-            if (last) {
-              c.mutate();
-              c.element.style = `
-                color: hsl(136, 100%, 85%);
-                text-shadow:
-                  0 0 .5em #fff,
-                  0 0 .5em currentColor;
-              `;
-            }
-          });
-        }, delay);
-      }
-    }
 
-    const matrixMain = document.querySelector('#matrix-bg main');
-    for (let i = 0; i < 30; ++i) {
-      new Rain({ target: matrixMain, row: 30 });
-    }
+        context.shadowBlur = 0;
+        context.font = snippetSize + 'px "Fira Code", monospace';
+
+        for (const codeDrop of codeDrops) {
+          context.globalAlpha = codeDrop.opacity;
+          context.fillStyle = codeDrop.color;
+          context.fillText(codeDrop.text, codeDrop.x, codeDrop.y);
+
+          if (!advance) continue;
+          codeDrop.y += codeDrop.speed;
+          if (codeDrop.y > height + snippetSize * 2) {
+            Object.assign(codeDrop, createCodeDrop());
+          }
+        }
+
+        context.globalAlpha = 1;
+        context.shadowBlur = 0;
+      }
+
+      function animate(timestamp) {
+        frameId = 0;
+        if (document.hidden || motionPreference.matches) return;
+
+        if (timestamp - lastFrameTime >= 40) {
+          drawFrame(true);
+          lastFrameTime = timestamp;
+        }
+        frameId = requestAnimationFrame(animate);
+      }
+
+      function startAnimation() {
+        if (frameId || document.hidden || motionPreference.matches) return;
+        lastFrameTime = 0;
+        frameId = requestAnimationFrame(animate);
+      }
+
+      function stopAnimation() {
+        if (frameId) cancelAnimationFrame(frameId);
+        frameId = 0;
+      }
+
+      window.addEventListener('resize', () => {
+        resizeCanvas();
+        startAnimation();
+      }, { passive: true });
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stopAnimation();
+        else startAnimation();
+      });
+
+      if (typeof motionPreference.addEventListener === 'function') {
+        motionPreference.addEventListener('change', () => {
+          stopAnimation();
+          if (motionPreference.matches) drawFrame(false);
+          else startAnimation();
+        });
+      }
+
+      resizeCanvas();
+      startAnimation();
+    })();
+
 
     // Typing Effect
     const texts = [
