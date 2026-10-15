@@ -222,7 +222,7 @@
 
     /* About Section */
     #about {
-      background: var(--dark);
+      background: rgba(10, 14, 39, 0.62);
     }
 
     .section-title {
@@ -301,21 +301,45 @@
       background: rgba(5, 8, 20, 0.62);
     }
 
+    .skill-category {
+      margin-top: 1.8rem;
+    }
+
+    .skill-category:first-of-type {
+      margin-top: 0;
+    }
+
+    .skill-category-title {
+      color: var(--primary);
+      font-family: 'Fira Code', monospace;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+      padding-left: 0.7rem;
+      border-left: 3px solid var(--primary);
+    }
+
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      margin-top: 3rem;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 0;
     }
 
     .skill-card {
-      background: var(--dark);
-      padding: 2rem;
-      border-radius: 15px;
+      background: rgba(10, 14, 39, 0.9);
+      padding: 0.85rem 0.55rem;
+      border-radius: 12px;
       border: 1px solid rgba(0, 255, 136, 0.1);
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
       position: relative;
       overflow: hidden;
+      min-height: 94px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
 
     .skill-card::before {
@@ -335,47 +359,28 @@
     }
 
     .skill-card:hover {
-      transform: translateY(-10px);
+      transform: translateY(-4px);
       border-color: var(--primary);
-      box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+      box-shadow: 0 7px 20px rgba(0, 255, 136, 0.14);
     }
 
     .skill-icon {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
+      font-size: 1.65rem;
+      line-height: 1;
+      margin-bottom: 0.55rem;
     }
 
     .skill-name {
-      font-size: 1.3rem;
+      font-size: 0.8rem;
       font-weight: 600;
-      margin-bottom: 1rem;
       color: var(--light);
-    }
-
-    .skill-level {
-      width: 100%;
-      height: 8px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 0.5rem;
-    }
-
-    .skill-progress {
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      border-radius: 10px;
-      transition: width 1s ease;
-    }
-
-    .skill-percentage {
-      color: var(--gray);
-      font-size: 0.9rem;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
     }
 
     /* Interests Section: keep the code-rain visible behind interest cards */
     #interests {
-      background: rgba(10, 14, 39, 0.62);
+      background: var(--dark);
     }
 
     .interests-grid {
@@ -565,6 +570,35 @@
       }
     }
 
+    /* Skills grid: six cards per row on wide screens, fluid on smaller screens */
+    @media (max-width: 1050px) {
+      .skills-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 900px) {
+      .skills-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 700px) {
+      .skills-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .skill-card {
+        min-height: 88px;
+      }
+    }
+
+    @media (max-width: 460px) {
+      .skills-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
     /* Particle Effect */
     .particle {
       position: fixed;
@@ -698,118 +732,275 @@
     <section id="skills">
       <div class="container">
         <h2 class="section-title">Yeteneklerim</h2>
-        <div class="skills-grid">
-          <div class="skill-card">
-            <div class="skill-icon">💻</div>
-            <div class="skill-name">Web Geliştirme</div>
-            <div class="skill-level">
-              <div class="skill-progress" data-progress="90"></div>
+        <div class="skill-category">
+          <h3 class="skill-category-title">Backend & .NET</h3>
+          <div class="skills-grid">
+            <div class="skill-card">
+              <div class="skill-icon">{ }</div>
+              <div class="skill-name">C#</div>
             </div>
-            <div class="skill-percentage">90%</div>
+            <div class="skill-card">
+              <div class="skill-icon">🟣</div>
+              <div class="skill-name">.NET</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">⚙️</div>
+              <div class="skill-name">ASP.NET Core</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🧭</div>
+              <div class="skill-name">ASP.NET MVC</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🧩</div>
+              <div class="skill-name">Entity Framework</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🌐</div>
+              <div class="skill-name">REST API</div>
+            </div>
           </div>
-           <div class="skill-card">
-            <div class="skill-icon">֎🇦🇮</div>
-            <div class="skill-name">Python</div>
-            <div class="skill-level">
-              <div class="skill-progress" data-progress="50"></div>
+        </div>
+
+        <div class="skill-category">
+          <h3 class="skill-category-title">Mimari & Prensipler</h3>
+          <div class="skills-grid">
+            <div class="skill-card">
+              <div class="skill-icon">🔗</div>
+              <div class="skill-name">Dependency Injection</div>
             </div>
-            <div class="skill-percentage">50%</div>
+            <div class="skill-card">
+              <div class="skill-icon">🔄</div>
+              <div class="skill-name">Unit of Work</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🧱</div>
+              <div class="skill-name">SOLID</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🧬</div>
+              <div class="skill-name">OOP</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🕸️</div>
+              <div class="skill-name">Mikroservis Mimarisi</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🏗️</div>
+              <div class="skill-name">Layered Architecture</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🏛️</div>
+              <div class="skill-name">Clean Architecture</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">✨</div>
+              <div class="skill-name">Clean Code</div>
+            </div>
           </div>
-          <div class="skill-card">
-            <div class="skill-icon">{ }</div>
-            <div class="skill-name">C#</div>
-            <div class="skill-level">
-              <div class="skill-progress" data-progress="90"></div>
+        </div>
+
+        <div class="skill-category">
+          <h3 class="skill-category-title">Yapay Zeka & Python</h3>
+          <div class="skills-grid">
+            <div class="skill-card">
+              <div class="skill-icon">🐍</div>
+              <div class="skill-name">Python</div>
             </div>
-            <div class="skill-percentage">90%</div>
+            <div class="skill-card">
+              <div class="skill-icon">🔢</div>
+              <div class="skill-name">NumPy</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🐼</div>
+              <div class="skill-name">Pandas</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🤖</div>
+              <div class="skill-name">Scikit-learn</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🧠</div>
+              <div class="skill-name">TensorFlow</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🔥</div>
+              <div class="skill-name">PyTorch</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">✨</div>
+              <div class="skill-name">OpenAI API</div>
+            </div>
           </div>
-          <div class="skill-card">
-            <div class="skill-icon">🎨</div>
-            <div class="skill-name">Css</div>
-            <div class="skill-level">
-              <div class="skill-progress" data-progress="85"></div>
+        </div>
+
+        <div class="skill-category">
+          <h3 class="skill-category-title">Frontend</h3>
+          <div class="skills-grid">
+            <div class="skill-card">
+              <div class="skill-icon">🟨</div>
+              <div class="skill-name">JavaScript</div>
             </div>
-            <div class="skill-percentage">85%</div>
+            <div class="skill-card">
+              <div class="skill-icon">⚡</div>
+              <div class="skill-name">jQuery</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🔷</div>
+              <div class="skill-name">TypeScript</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">⚛️</div>
+              <div class="skill-name">React</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🌐</div>
+              <div class="skill-name">HTML</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🎨</div>
+              <div class="skill-name">CSS</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🅱️</div>
+              <div class="skill-name">Bootstrap</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🅰️</div>
+              <div class="skill-name">Angular</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">▲</div>
+              <div class="skill-name">Next.js</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">💻</div>
+              <div class="skill-name">Web Geliştirme</div>
+            </div>
           </div>
-          <div class="skill-card">
-            <div class="skill-icon">✨</div>
-            <div class="skill-name">JavaScript</div>
-            <div class="skill-level">
-              <div class="skill-progress" data-progress="75"></div>
+        </div>
+
+        <div class="skill-category">
+          <h3 class="skill-category-title">Veritabanları</h3>
+          <div class="skills-grid">
+            <div class="skill-card">
+              <div class="skill-icon">🗃️</div>
+              <div class="skill-name">SQL</div>
             </div>
-            <div class="skill-percentage">75%</div>
+            <div class="skill-card">
+              <div class="skill-icon">🐘</div>
+              <div class="skill-name">PostgreSQL</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🍃</div>
+              <div class="skill-name">MongoDB</div>
+            </div>
           </div>
-          <div class="skill-card">
-            <div class="skill-icon">⚡</div>
-            <div class="skill-name">Jquery</div>
-            <div class="skill-level">
-              <div class="skill-progress" data-progress="95"></div>
+        </div>
+
+        <div class="skill-category">
+          <h3 class="skill-category-title">Araçlar & Süreçler</h3>
+          <div class="skills-grid">
+            <div class="skill-card">
+              <div class="skill-icon">🌱</div>
+              <div class="skill-name">Git</div>
             </div>
-            <div class="skill-percentage">85%</div>
+            <div class="skill-card">
+              <div class="skill-icon">🔀</div>
+              <div class="skill-name">TFS</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">📮</div>
+              <div class="skill-name">Postman</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">📋</div>
+              <div class="skill-name">Jira</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🛠️</div>
+              <div class="skill-name">Visual Studio</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">💙</div>
+              <div class="skill-name">Visual Studio Code</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🏃</div>
+              <div class="skill-name">Agile Scrum</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🔁</div>
+              <div class="skill-name">CI/CD</div>
+            </div>
           </div>
-          <div class="skill-card">
-            <div class="skill-icon">🌟</div>
-            <div class="skill-name">Html</div>
-            <div class="skill-level">
-              <div class="skill-progress" data-progress="92"></div>
+        </div>
+
+        <div class="skill-category">
+          <h3 class="skill-category-title">Testing & QA</h3>
+          <div class="skills-grid">
+            <div class="skill-card">
+              <div class="skill-icon">✅</div>
+              <div class="skill-name">Functional Testing</div>
             </div>
-            <div class="skill-percentage">92%</div>
+            <div class="skill-card">
+              <div class="skill-icon">🔄</div>
+              <div class="skill-name">Regression Testing</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🖥️</div>
+              <div class="skill-name">UI Testing</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🔗</div>
+              <div class="skill-name">End-to-End (E2E) Testing</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🧪</div>
+              <div class="skill-name">Unit Testing</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🔬</div>
+              <div class="skill-name">API Testing</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">⚡</div>
+              <div class="skill-name">Performance Testing</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">📈</div>
+              <div class="skill-name">Load Testing</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">📝</div>
+              <div class="skill-name">Test Case / Scenario Design</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🐞</div>
+              <div class="skill-name">Defect Tracking & Reporting</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">▶️</div>
+              <div class="skill-name">Test Execution & Reporting</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">📊</div>
+              <div class="skill-name">Test Result Analysis</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🤖</div>
+              <div class="skill-name">Test Automation</div>
+            </div>
           </div>
-          <div class="skill-card">
-            <div class="skill-icon">🚀</div>
-            <div class="skill-name">Problem Çözme</div>
-            <div class="skill-level">
-              <div class="skill-progress" data-progress="88"></div>
+        </div>
+
+        <div class="skill-category">
+          <h3 class="skill-category-title">Genel Yetkinlik</h3>
+          <div class="skills-grid">
+            <div class="skill-card">
+              <div class="skill-icon">🧠</div>
+              <div class="skill-name">Problem Çözme</div>
             </div>
-            <div class="skill-percentage">88%</div>
-          </div>
-          <div class="skill-card">
-            <div class="skill-icon">🔐</div>
-            <div class="skill-name">SQL</div>
-            <div class="skill-level">
-              <div class="skill-progress" data-progress="92"></div>
-            </div>
-            <div class="skill-percentage">92%</div>
-          </div>
-          <div class="skill-card">
-            <div class="skill-icon">🍃</div>
-            <div class="skill-name">MongoDB</div>
-            <div class="skill-level">
-              <div class="skill-progress" data-progress="87"></div>
-            </div>
-            <div class="skill-percentage">87%</div>
-          </div>
-           <div class="skill-card">
-            <div class="skill-icon">⚛️</div>
-            <div class="skill-name">Angular</div>
-            <div class="skill-level">
-              <div class="skill-progress" data-progress="57"></div>
-            </div>
-            <div class="skill-percentage">57%</div>
-          </div>
-           <div class="skill-card">
-            <div class="skill-icon">✳️</div>
-            <div class="skill-name">Next.js</div>
-            <div class="skill-level">
-              <div class="skill-progress" data-progress="47"></div>
-            </div>
-            <div class="skill-percentage">47%</div>
-          </div>
-          <div class="skill-card">
-            <div class="skill-icon">🎯</div>
-            <div class="skill-name">.Net</div>
-            <div class="skill-level">
-              <div class="skill-progress" data-progress="80"></div>
-            </div>
-            <div class="skill-percentage">80%</div>
-          </div>
-          <div class="skill-card">
-            <div class="skill-icon">🔧</div>
-            <div class="skill-name">Api</div>
-            <div class="skill-level">
-              <div class="skill-progress" data-progress="80"></div>
-            </div>
-            <div class="skill-percentage">80%</div>
           </div>
         </div>
       </div>
@@ -1157,20 +1348,6 @@
     }, observerOptions);
 
     counters.forEach(counter => counterObserver.observe(counter));
-
-    // Skill Progress Animation
-    const skillProgress = document.querySelectorAll('.skill-progress');
-    const skillObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const progress = entry.target.getAttribute('data-progress');
-          entry.target.style.width = progress + '%';
-          skillObserver.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    skillProgress.forEach(skill => skillObserver.observe(skill));
 
     // Particle Effect on Click
     document.addEventListener('click', (e) => {
