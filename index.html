@@ -952,14 +952,14 @@
         return {
           x,
           y,
-          speed: randomBetween(0.7, 2.0),
+          speed: randomBetween(1.1, 3.0),
           length,
           color: pick(colors),
           characters: Array.from({ length: length + 1 }, () => pick(glyphs))
         };
       }
 
-      function createCodeDrop() {
+      function createCodeDrop(startAboveViewport = false) {
         const text = pick(codeLines);
         context.font = snippetSize + 'px "Fira Code", monospace';
         const textWidth = context.measureText(text).width;
@@ -968,8 +968,10 @@
         return {
           text,
           x: randomBetween(8, maxX),
-          y: randomBetween(-Math.max(height, 80), -snippetSize * 2),
-          speed: randomBetween(0.35, 0.9),
+          y: startAboveViewport
+            ? randomBetween(-Math.max(height, 80), -snippetSize * 2)
+            : randomBetween(-Math.max(height * 0.25, 80), Math.max(-snippetSize, height * 0.75)),
+          speed: randomBetween(0.8, 1.6),
           opacity: isNameLine ? randomBetween(0.48, 0.72) : randomBetween(0.24, 0.42),
           color: isNameLine ? '#9bffd9' : pick(colors)
         };
@@ -1041,7 +1043,7 @@
           if (!advance) continue;
           codeDrop.y += codeDrop.speed;
           if (codeDrop.y > height + snippetSize * 2) {
-            Object.assign(codeDrop, createCodeDrop());
+            Object.assign(codeDrop, createCodeDrop(true));
           }
         }
 
