@@ -952,7 +952,7 @@
         return {
           x,
           y,
-          speed: randomBetween(1.1, 3.0),
+          speed: randomBetween(1.0, 2.7),
           length,
           color: pick(colors),
           characters: Array.from({ length: length + 1 }, () => pick(glyphs))
@@ -971,7 +971,7 @@
           y: startAboveViewport
             ? randomBetween(-Math.max(height, 80), -snippetSize * 2)
             : randomBetween(-Math.max(height * 0.25, 80), Math.max(-snippetSize, height * 0.75)),
-          speed: randomBetween(0.8, 1.6),
+          speed: randomBetween(0.7, 1.4),
           opacity: isNameLine ? randomBetween(0.48, 0.72) : randomBetween(0.24, 0.42),
           color: isNameLine ? '#9bffd9' : pick(colors)
         };
@@ -987,7 +987,7 @@
 
         glyphSize = width < 600 ? 13 : 15;
         snippetSize = width < 420 ? 9 : width < 768 ? 10 : 12;
-        const columnSpacing = glyphSize * 1.35;
+        const columnSpacing = glyphSize * 1.22;
         const columnCount = Math.ceil(width / columnSpacing);
 
         drops = Array.from({ length: columnCount }, (_, index) =>
