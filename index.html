@@ -462,7 +462,13 @@
     .contact-text {
       font-size: 1.2rem;
       color: var(--gray);
-      margin-bottom: 1.5rem;
+      margin: 0 auto 1.5rem;
+      max-width: 900px;
+      padding: 1.25rem 1.5rem;
+      background: rgba(10, 14, 39, 0.62);
+      border: 1px solid rgba(0, 255, 136, 0.1);
+      border-radius: 14px;
+      backdrop-filter: blur(3px);
     }
 
     .contact-links {
@@ -672,6 +678,11 @@
 
       .contact-link {
         padding: 0.8rem 0.45rem;
+      }
+
+      .contact-text {
+        padding: 1rem;
+        font-size: 1.05rem;
       }
 
       #skills {
@@ -948,8 +959,8 @@
               <div class="skill-name">MongoDB</div>
             </div>
             <div class="skill-card">
-              <div class="skill-icon">🕸️</div>
-              <div class="skill-name">NeoDB</div>
+              <div class="skill-icon">🔴</div>
+              <div class="skill-name">Redis</div>
             </div>
           </div>
         </div>
