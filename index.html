@@ -234,6 +234,11 @@
       width: 100%;
     }
 
+    #interests .section-title,
+    #contact .section-title {
+      margin-bottom: 1.75rem;
+    }
+
     .section-title::after {
       content: '';
       position: absolute;
@@ -299,6 +304,7 @@
     /* Skills Section: let the code-rain remain visible behind skill cards */
     #skills {
       background: rgba(5, 8, 20, 0.62);
+      padding-bottom: 2.5rem;
     }
 
     .skill-category {
@@ -381,6 +387,9 @@
     /* Interests Section: keep the code-rain visible behind interest cards */
     #interests {
       background: transparent;
+      min-height: auto;
+      padding-top: 2.5rem;
+      padding-bottom: 2.5rem;
     }
 
     .interests-grid {
@@ -438,43 +447,45 @@
     /* Contact Section */
     #contact {
       background: transparent;
+      min-height: auto;
+      padding-top: 2.5rem;
+      padding-bottom: 3rem;
     }
 
     .contact-content {
       text-align: center;
-      max-width: 600px;
+      max-width: 1200px;
+      width: 100%;
       margin: 0 auto;
-      padding: 2.25rem;
-      background: rgba(10, 14, 39, 0.62);
-      border: 1px solid rgba(0, 255, 136, 0.1);
-      border-radius: 18px;
-      backdrop-filter: blur(3px);
     }
 
     .contact-text {
       font-size: 1.2rem;
       color: var(--gray);
-      margin-bottom: 3rem;
+      margin-bottom: 1.5rem;
     }
 
     .contact-links {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.8rem;
+      width: 100%;
     }
 
     .contact-link {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 1rem 2rem;
+      justify-content: center;
+      gap: 0.45rem;
+      min-width: 0;
+      padding: 0.85rem 0.55rem;
       background: var(--dark);
       border: 1px solid rgba(0, 255, 136, 0.1);
       border-radius: 50px;
       color: var(--light);
       text-decoration: none;
       transition: all 0.3s ease;
+      white-space: nowrap;
     }
 
     .contact-link:hover {
@@ -643,6 +654,38 @@
 
       .interest-emoji {
         font-size: 1.8rem;
+      }
+    }
+
+    /* Keep all five contact links on one row on wide screens */
+    @media (max-width: 900px) {
+      .contact-links {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .contact-links {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.65rem;
+      }
+
+      .contact-link {
+        padding: 0.8rem 0.45rem;
+      }
+
+      #skills {
+        padding-bottom: 2rem;
+      }
+
+      #interests {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+      }
+
+      #contact {
+        padding-top: 2rem;
+        padding-bottom: 2.5rem;
       }
     }
 
@@ -844,10 +887,6 @@
               <div class="skill-icon">🏛️</div>
               <div class="skill-name">Clean Architecture</div>
             </div>
-            <div class="skill-card">
-              <div class="skill-icon">✨</div>
-              <div class="skill-name">Clean Code</div>
-            </div>
           </div>
         </div>
 
@@ -890,10 +929,6 @@
               <div class="skill-icon">▲</div>
               <div class="skill-name">Next.js</div>
             </div>
-            <div class="skill-card">
-              <div class="skill-icon">💻</div>
-              <div class="skill-name">Web Geliştirme</div>
-            </div>
           </div>
         </div>
 
@@ -911,6 +946,10 @@
             <div class="skill-card">
               <div class="skill-icon">🍃</div>
               <div class="skill-name">MongoDB</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🕸️</div>
+              <div class="skill-name">NeoDB</div>
             </div>
           </div>
         </div>
@@ -949,6 +988,10 @@
             <div class="skill-card">
               <div class="skill-icon">🔁</div>
               <div class="skill-name">CI/CD</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🐳</div>
+              <div class="skill-name">Docker</div>
             </div>
           </div>
         </div>
@@ -1001,10 +1044,6 @@
               <div class="skill-icon">📊</div>
               <div class="skill-name">Test Result Analysis</div>
             </div>
-            <div class="skill-card">
-              <div class="skill-icon">🤖</div>
-              <div class="skill-name">Test Automation</div>
-            </div>
           </div>
         </div>
 
@@ -1014,6 +1053,18 @@
             <div class="skill-card">
               <div class="skill-icon">🧠</div>
               <div class="skill-name">Problem Çözme</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">✨</div>
+              <div class="skill-name">Clean Code</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">💻</div>
+              <div class="skill-name">Web Geliştirme</div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon">🤖</div>
+              <div class="skill-name">Test Otomasyonu</div>
             </div>
           </div>
         </div>
