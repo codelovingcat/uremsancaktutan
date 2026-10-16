@@ -220,6 +220,44 @@
       color: var(--darker);
     }
 
+    /* Commit-Man animation above the main CTA */
+    .commit-man-preview {
+      display: block;
+      width: min(100%, 680px);
+      margin: 0 auto 1.35rem;
+      padding: 0.65rem;
+      background: rgba(10, 14, 39, 0.76);
+      border: 1px solid rgba(0, 255, 136, 0.22);
+      border-radius: 16px;
+      box-shadow: 0 0 28px rgba(0, 255, 136, 0.08);
+      text-decoration: none;
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .commit-man-preview:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(0, 255, 136, 0.14);
+    }
+
+    .commit-man-preview img {
+      display: block;
+      width: 100%;
+      max-height: 150px;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    .commit-man-caption {
+      display: block;
+      margin-top: 0.45rem;
+      color: var(--gray);
+      font-family: 'Fira Code', monospace;
+      font-size: 0.78rem;
+      line-height: 1.45;
+      text-align: center;
+    }
+
     /* About Section */
     #about {
       background: rgba(10, 14, 39, 0.62);
@@ -564,6 +602,17 @@
 
     /* Responsive */
     @media (max-width: 768px) {
+      .commit-man-preview {
+        width: min(100%, 480px);
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+      }
+
+      .commit-man-preview img {
+        max-height: 105px;
+      }
+
+
       .profile-image {
         width: 120px;
         height: 120px;
@@ -791,6 +840,20 @@
           <div class="typing-text">
             <span id="typed-text"></span><span class="cursor">|</span>
           </div>
+          <a
+            class="commit-man-preview"
+            href="https://github.com/codelovingcat/commit-man"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Commit-Man projesini GitHub'da görüntüle"
+          >
+            <img
+              src="https://raw.githubusercontent.com/codelovingcat/commit-man/output/commit-man.gif"
+              alt="Commit-Man animasyonu: GitHub katkı grafiğinde ilerleyen sarı karakter"
+              decoding="async"
+            >
+            <span class="commit-man-caption">Commit-Man · GitHub katkılarını animasyona dönüştüren proje</span>
+          </a>
           <a href="#about" class="cta-button">Keşfet</a>
         </div>
         <div class="scroll-indicator"></div>
